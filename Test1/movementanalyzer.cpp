@@ -90,6 +90,8 @@ void MovementAnalyzer::AnalyzeMovement(movementDataType &dic)
 	auto keys = dic.uniqueKeys();
 	foreach(auto item, keys)
 	{
+		//кхм...
+		//QFuture<void> future = QtConcurrent::run([=](){AnalyzeSingleUnitMovement(item, dic.value(item));});
 		AnalyzeSingleUnitMovement(item, dic.value(item));
 	}
 }

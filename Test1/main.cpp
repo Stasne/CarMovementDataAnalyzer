@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 
 // TODO: Консольное меню
 	MovementAnalyzer analyzer;
+	// профилирование 2.0
 	QTime t1;
 	t1.start();
 	analyzer.MakeFileAnalyze(":/new/prefix1/log.csv", "./result.txt");
