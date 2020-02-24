@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QTextStream>
 
+// TODO: EXCEPTIONS парсинга ловить
+
 class CsvParser
 {
 public:
