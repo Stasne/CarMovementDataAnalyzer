@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         csvparser.cpp \
-        csvreader.cpp \
         main.cpp \
         movementanalyzer.cpp
 
@@ -31,5 +30,4 @@ RESOURCES += \
 
 HEADERS += \
 	csvparser.h \
-	csvreader.h \
 	movementanalyzer.h

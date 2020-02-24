@@ -4,13 +4,11 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QMultiMap>
 #include "csvparser.h"
-#include "csvreader.h"
 
 
 class MovementAnalyzer
 {
 	enum COLUMNS{TIME, ID, SPEED, COLUMNS_COUNT};
-	CsvReader	m_csvReader;
 	CsvParser	m_csvParser;
 	QList<QStringList>	m_csvParsedLines;					// CSV parsing result
 	QMap <qlonglong, QMap<QTime, uint>> m_movementDataDic;	// storing data

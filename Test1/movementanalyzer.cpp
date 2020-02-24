@@ -16,21 +16,8 @@ void MovementAnalyzer::makeReport(const QString &sourceCSV, const QString &resul
 	QTextStream out(&result);
 	result.open(QIODevice::WriteOnly | QIODevice::Text);
 // открыть файл CSV
-#ifdef CSVREADER
-	m_csvReader.setFileName(sourceCSV);
-
-	if (!m_csvReader.Open())
-	{
-		qDebug() << "Opening file error";
-		return;
-	}
-	m_csvReader.CSVRead(m_csvParsedLines);
-#endif
 // прочесть и положить в удобный вид
-
-#ifndef CSVREADER
 	m_csvParser.Parse(sourceCSV, m_csvParsedLines);
-#endif
 
 	auto itLine = m_csvParsedLines.begin();
 	while (itLine != m_csvParsedLines.end())
@@ -60,7 +47,6 @@ void MovementAnalyzer::makeReport(const QString &sourceCSV, const QString &resul
 	qDebug() << "CSV parsed lines count: " << m_csvParsedLines.size();
 	qDebug() << "Lines skipped (total): "<< m_skippedLines.size();
 // закрыть файл
-	m_csvReader.close();
 // посчитать времена
 	// concurrentRun?
 // вывести в файл TXT
