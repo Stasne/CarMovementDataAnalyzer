@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        csvparser.cpp \
         csvreader.cpp \
         main.cpp \
         movementanalyzer.cpp
@@ -29,5 +30,6 @@ RESOURCES += \
 	rsc.qrc
 
 HEADERS += \
+	csvparser.h \
 	csvreader.h \
 	movementanalyzer.h
