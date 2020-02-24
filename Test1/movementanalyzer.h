@@ -5,23 +5,12 @@
 #include <QMultiMap>
 #include <QtConcurrent/QtConcurrent>
 #include "csvparser.h"
-#include "csvreader.h"
 
 
 class MovementAnalyzer
 {
-<<<<<<< Updated upstream
-	enum COLUMNS{TIME, ID, SPEED, COLUMNS_COUNT};
-	CsvReader	m_csvReader;
-	CsvParser	m_csvParser;
-	QList<QStringList>	m_csvParsedLines;					// CSV parsing result
-	QMap <qlonglong, QMap<QTime, uint>> m_movementDataDic;	// storing data
-
-	QList<QStringList>	m_skippedLines;						// Количество неучтенных строк (ввиду несоответствия формата)
-=======
 	typedef QMap <qulonglong, QMap<QTime, uint>> movementDataType;
 	typedef QMap <qulonglong, qreal> reportType;
->>>>>>> Stashed changes
 public:
 	MovementAnalyzer();
 	void MakeFileAnalyze(const QString &sourceCSV, const QString &resultTXT);

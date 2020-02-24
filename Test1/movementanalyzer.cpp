@@ -14,21 +14,8 @@ void MovementAnalyzer::MakeFileAnalyze(const QString &sourceCSV, const QString &
 	m_resultFile = resultTXT;
 
 // открыть файл CSV
-#ifdef CSVREADER
-	m_csvReader.setFileName(sourceCSV);
-
-	if (!m_csvReader.Open())
-	{
-		qDebug() << "Opening file error";
-		return;
-	}
-	m_csvReader.CSVRead(m_csvParsedLines);
-#endif
 // прочесть и положить в удобный вид
-
-#ifndef CSVREADER
 	m_csvParser.Parse(sourceCSV, m_csvParsedLines);
-#endif
 
 	InitializeDataDictionary();	// Заполняем m_movementDataDic
 	AnalyzeMovement(m_movementDataDic);
@@ -107,16 +94,6 @@ void MovementAnalyzer::AnalyzeMovement(movementDataType &dic)
 	}
 }
 
-<<<<<<< Updated upstream
-	qDebug() << "CSV parsed lines count: " << m_csvParsedLines.size();
-	qDebug() << "Lines skipped (total): "<< m_skippedLines.size();
-// закрыть файл
-	m_csvReader.close();
-// посчитать времена
-	// concurrentRun?
-// вывести в файл TXT
-	out << "dsdsd";
-=======
 void MovementAnalyzer::AnalyzeSingleUnitMovement(qlonglong id, QMap<QTime, quint32> dic)
 {
 	qreal movementTime	= 0;
@@ -136,7 +113,6 @@ void MovementAnalyzer::AnalyzeSingleUnitMovement(qlonglong id, QMap<QTime, quint
 			{
 				if (lastMarker.secsTo(currentMarker) > m_timeoutSecond) // если прошло больше 2х минут
 				{
->>>>>>> Stashed changes
 
 					dic.insert(lastMarker.addSecs(m_timeoutSecond), 0);
 				}
@@ -167,8 +143,6 @@ void MovementAnalyzer::AnalyzeSingleUnitMovement(qlonglong id, QMap<QTime, quint
 	{
 		if (lastMarker.addSecs(m_timeoutSecond) > lastMarker)	// если через <2 мин полночь.. ) сбросится время.
 		{
-			qDebug() << lastMarker.addSecs(m_timeoutSecond);
-			qDebug() << QTime::fromString(m_endTime);
 			movementTime += SexToDec(lastMarker.secsTo(lastMarker.addSecs(120)));
 		}
 		else
