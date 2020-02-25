@@ -97,35 +97,26 @@ void MovementAnalyzer::AnalyzeSingleUnitMovement(qlonglong id, QMap<QTime, quint
 	lastMarker = QTime::fromString("00:00:00");
 	bool wasMoving = false;
 	bool isMoving = false;
-//	TODO: упростить монстра
 	while (!dic.isEmpty())
 	{
 		currentMarker	 = dic.firstKey();
 		isMoving = dic.value(currentMarker);
-		// Если остановились, то
-			// Прибавляем к времени езды либо от прошлого до текущего, либо от прошлого+2минуты(если > timeout прошло)
-			// иначе - пофиг, просто записываем точку старта.
-		//if (isMoving)
+// Если ехали, то
+// Прибавляем к времени езды либо от прошлого до текущего, либо от прошлого+2минуты(если > timeout прошло)
+// иначе - пофиг, просто записываем точку старта.
 		movementTime += wasMoving?
 					SexToDec( lastMarker.secsTo( lastMarker.secsTo(currentMarker) < m_timeoutSecond?
-															 currentMarker : lastMarker.addSecs(m_timeoutSecond) ) ):0;
-
+												currentMarker : lastMarker.addSecs(m_timeoutSecond) ) ):0;
 		lastMarker = currentMarker;
 		wasMoving = isMoving;
 		dic.remove(currentMarker);
 
 	}
 //	 Когда словарь закончился обрабатываем последний временной участок (до 23:59:59)
-	if (wasMoving)
-	{
-		if (lastMarker.addSecs(m_timeoutSecond) > lastMarker)	// если через <2 мин полночь.. ) сбросится время.
-		{
-			movementTime += SexToDec(lastMarker.secsTo(lastMarker.addSecs(m_timeoutSecond)));
-		}
-		else
-			movementTime += SexToDec(lastMarker.secsTo(QTime::fromString(m_endTime)));
+// Если последняя инфа-"ЕДУ", то +2мин(если в этот день умещается) иначе до конца суток
+	movementTime += wasMoving?( SexToDec( lastMarker.secsTo( lastMarker.addSecs(m_timeoutSecond) > lastMarker?
+									lastMarker.addSecs(m_timeoutSecond) : QTime::fromString(m_endTime) )) ):0;
 
-	}
-	// Вставить в словарь новое поле с результатами: ID и длительность движения.
+// Вставить в словарь новое поле с результатами: ID и длительность движения.
 	m_movementStatistic.insert(id, movementTime);
 }
