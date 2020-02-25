@@ -4,10 +4,12 @@
 #include <QFile>
 #include <QTextStream>
 
+// "Парсер" под разделители отличные от "-", ":", """.
+// принимает QString& - путь к файлу для парсинга. и ссылку на QList<QStringList> куда и кладет результат.
 class CsvParser
 {
 public:
-	CsvParser(const QString& csvFilePath = QString(""), QChar separator = QChar(','));
+	CsvParser(QChar separator = QChar(','));
 
 	void Parse(const QString& csvFilePath, QList<QStringList>&);
 private:
