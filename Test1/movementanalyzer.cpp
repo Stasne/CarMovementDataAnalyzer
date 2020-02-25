@@ -102,52 +102,18 @@ void MovementAnalyzer::AnalyzeSingleUnitMovement(qlonglong id, QMap<QTime, quint
 	{
 		currentMarker	 = dic.firstKey();
 		isMoving = dic.value(currentMarker);
-//		if (isMoving != wasMoving)
-
-
-
 		// Если остановились, то
 			// Прибавляем к времени езды либо от прошлого до текущего, либо от прошлого+2минуты(если > timeout прошло)
 			// иначе - пофиг, просто записываем точку старта.
-		if (!isMoving)
-			movementTime += SexToDec( lastMarker.secsTo( lastMarker.secsTo(currentMarker) < m_timeoutSecond?
-															 currentMarker : lastMarker.addSecs(m_timeoutSecond) ) );
-			lastMarker = currentMarker;
-			wasMoving = isMoving;
-			dic.remove(currentMarker);
+		//if (isMoving)
+		movementTime += wasMoving?
+					SexToDec( lastMarker.secsTo( lastMarker.secsTo(currentMarker) < m_timeoutSecond?
+															 currentMarker : lastMarker.addSecs(m_timeoutSecond) ) ):0;
 
+		lastMarker = currentMarker;
+		wasMoving = isMoving;
+		dic.remove(currentMarker);
 
-//		if (wasMoving)		// ЕСЛИ ЕХАЛИ
-//		{
-//			if (isMoving)	// и продолжаем
-//			{
-//				if (lastMarker.secsTo(currentMarker) > m_timeoutSecond) // если прошло больше 2х минут
-//				{
-
-
-//					dic.insert(lastMarker.addSecs(m_timeoutSecond), 0);
-//				}
-//				else	// прошло меньше 2х минут, едем дальше
-//				{
-//					dic.remove(currentMarker);
-//				}
-//			}
-//			else			// и остановились
-//			{
-//				movementTime += SexToDec(lastMarker.secsTo(currentMarker));
-//				wasMoving = false;
-//				dic.remove(currentMarker);
-//			}
-//		}
-//		else				// ЕСЛИ СТОЯЛИ
-//		{
-//			if (isMoving)	// и сейчас поехали
-//			{
-//				lastMarker = currentMarker;
-//				wasMoving = true;
-//			}
-//			dic.remove(currentMarker); // удаляем учтенное поле
-//		}
 	}
 //	 Когда словарь закончился обрабатываем последний временной участок (до 23:59:59)
 	if (wasMoving)
