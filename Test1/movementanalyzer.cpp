@@ -1,5 +1,7 @@
 #include "movementanalyzer.h"
 #include <QDebug>
+#include <QLocale>
+#include <QTextCodec>
 MovementAnalyzer::MovementAnalyzer()
 {
 
@@ -27,17 +29,27 @@ void MovementAnalyzer::MakeFileAnalyze(const QString &sourceCSV, const QString &
 
 void MovementAnalyzer::MakeDayReport(const reportType& dataToExport)
 {
-	// TODO: Русский текст выводить нужно
 	QFile result(m_resultFile);
 	QTextStream out(&result);
 	result.open(QIODevice::WriteOnly | QIODevice::Text);
+
+	// TODO: Русский текст выводить нужно
+	// через два кодека слишком тупо. как-то проще ннада.
+	// Чёт сложна
+	QByteArray str = "Русский заголовок? да раз плюнуть (5строк написать)";
+	QTextCodec *codec_1251 = QTextCodec::codecForName("Windows-1251");
+	QString outRusString = codec_1251->toUnicode(str);
+	QTextCodec *codec_utf8 = QTextCodec::codecForName("UTF-8");
+	//out << "ЧУУЦУ";
+	out << codec_utf8->fromUnicode(outRusString) << endl;
+
 	out << m_reportSeparator << endl;
 	auto it = dataToExport.begin();
 	while (it != dataToExport.end())
 	{
-		out << "id: "			<< it.key() << endl;
-		out << "drive time: "	<< it.value() << "h" << endl;
-		out << "parking time: " << 24 - it.value() << "h" << endl;
+		out << "id: "<< it.key() << endl;
+		out << "drive time: "	<< QString::number(it.value(), 'f' , 2) << "h" << endl;
+		out << "parking time: " << QString::number(24 - it.value(), 'f' , 2) << "h" << endl;
 		out << m_reportSeparator << endl;
 		it++;
 	}
